@@ -13,7 +13,7 @@ const findPromptOptById = require("./model/scenarios/scenariosOpt");
 const findUser = require("./model/users/usersFind");
 const findScene = require("./model/scenarios/scenariosFind");
 const ejs = require("ejs");
-const User = require("./model/User");
+const User = require("./model/users/Users/User");
 var app = express();
   
 mongoose.connect("mongodb://127.0.0.1:27017/apwDB");
@@ -81,7 +81,8 @@ app.post("/register", async (req, res) => {
       password: req.body.password
     });
     
-    return res.status(200).json(user);
+    //res.status(200).json(user);
+    res.redirect('login');
   });
   
 //Showing login form

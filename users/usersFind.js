@@ -18,7 +18,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/apwDB');
 async function findUser(username){
     try{
             //finding scenario with id field of 2
-            const user = await users.where("name")
+            const user = await users.where("id")
             .equals(username);
             console.log(user[0].name);
             return user[0].name;
