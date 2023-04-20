@@ -1,3 +1,4 @@
+//required packages
 var express = require("express"),
     mongoose = require("mongoose"),
     passport = require("passport"),
@@ -6,14 +7,17 @@ var express = require("express"),
     passportLocalMongoose = 
         require("passport-local-mongoose") 
 
-
-const findScene = require("./alexK_repo/scenarios/scenariosFind");
+//required files
+const findPromptOpt2ById = require("./model/scenarios/scenariosOpt2");
+const findPromptOptById = require("./model/scenarios/scenariosOpt");
+const findUser = require("./model/users/usersFind");
+const findScene = require("./model/scenarios/scenariosFind");
 const ejs = require("ejs");
 const User = require("./model/User");
 var app = express();
   
 mongoose.connect("mongodb://127.0.0.1:27017/apwDB");
-  
+//setting up packages, ejs, express, mongoose, etc
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(require("express-session")({
@@ -38,6 +42,11 @@ app.get("/", function (req, res) {
     res.render("home");
 });
 
+// Showing profile page
+app.get("/profile", function (req, res) {
+  res.render("profile");
+});
+
 // Showing home page
 app.get("/index", function (req, res) {
   res.render("index");
@@ -55,13 +64,13 @@ app.get("/leaderboard", function (req, res) {
 
 // Showing game page
 app.get("/game", async function (req, res) {
-
-  // Using gameObjects functions!!
-  // name 'ralphie' is a test user but we need to have this populated
-  // with the logged in user from the db.
     const data = {
-       title: await findScene(1)
+       title: await findScene(1),
+       user: await findUser(1),
+       prompt1: await findPromptOptById(1),
+       prompt2: await findPromptOpt2ById(1)
     };
+
   res.render("game", data);
 });
   

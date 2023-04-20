@@ -1,0 +1,27 @@
+[
+    {
+        "id": 1,
+        "name": "Alexander John Kohanik",
+        "email": "kohani15@students.rowan.edu"
+    },
+    {
+        "id": 2,
+        "name": "Alexander Wills",
+        "email": "awills@yahoo.com"
+    },
+    {
+        "id": 3,
+        "name": "Ben Gaskill",
+        "email": "bgaskill@gmail.com"
+    },
+    {
+        "id": 4,
+        "name": "Francis Gomez",
+        "email": "fgomez@outlook.com"
+    },
+    {
+        "id": 5,
+        "name": "Jake Levy",
+        "email": "jlevy@microsoft.com"
+    }
+]

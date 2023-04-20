@@ -1,10 +1,15 @@
+<!--This page is where the game will be played.-->
 <script>var title = require("game")
 </script>
+<link href = "styles.css" rel="stylesheet">
+<h1>FABA The Game</h1>
 
-<h1>*GAME NAME*</h1>
+<!--Grabs the username and scenario from mongo-->
+<h2>Welcome to FABA, <%= user %> </h2>
+<h3>Prompt: <%= title %></h3>
+<button onclick="window.location.href='/game';"><%= prompt1 %></button>
+<button onclick="window.location.href='/game';"><%= prompt2 %></button>
 
-<!--grabs the username from app.js, needs to be linked to mongo though-->
-<h2>Welcome to FABA, <%= title %> </h2>
 
 
 
