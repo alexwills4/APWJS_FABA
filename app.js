@@ -16,6 +16,7 @@ const findPromptOptById = require("./model/scenarios/scenariosOpt");
 const findUser = require("./model/users/usersFind");
 const findScene = require("./model/scenarios/scenariosFind");
 const saveState =  require("./model/users/save");
+const loadState =  require("./model/users/save");
 
 const ejs = require("ejs");
 const User = require("./model/User");
@@ -86,10 +87,11 @@ app.get("/game", async function (req, res) {
      //This will be the save state function. /game calls here when the button is pressed and then this 
      //will reference the ** file containing the save function.
      const data3 = {
-        save: await saveState
+        save: await saveState(),
+        load: await loadState()
      };
 
-  res.render("game", data); //if I try to pass data2 in it crashes the site ***BE AWARE.
+  res.render("game", data, data3); //if I try to pass data2 in it crashes the site ***BE AWARE.
 });
 
 

@@ -7,5 +7,6 @@ npm install body-parser
 npm install express-session
 npm install passport passport-local 
 npm install passport-local-mongoose 
+npm install node-localstorage
 
 Run 'npm install' afterwards to confirm all are up to date.
