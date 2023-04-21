@@ -1,4 +1,3 @@
-//required packages
 var express = require("express"),
     mongoose = require("mongoose"),
     passport = require("passport"),
@@ -7,17 +6,27 @@ var express = require("express"),
     passportLocalMongoose = 
         require("passport-local-mongoose") 
 
-//required files
+//functions - AlexK
+//findPromptOpt2ById() pass in id as param, will return that scenes second option for user
+//findPromptOptById() pass in id as param, will return that scenes first option for the user
+//findUser() pass in a users id as param, will return that users username
+//findScene() pass in a scenes id as param, will return that scenes prompt aka the text displayed to the user.
 const findPromptOpt2ById = require("./model/scenarios/scenariosOpt2");
 const findPromptOptById = require("./model/scenarios/scenariosOpt");
 const findUser = require("./model/users/usersFind");
 const findScene = require("./model/scenarios/scenariosFind");
+const saveState =  require("./model/users/save");
+
 const ejs = require("ejs");
-const User = require("./model/users/Users/User");
+const User = require("./model/User");
 var app = express();
+
+var path = require('path');
+//app.use(express.static(path.join(__dirname, 'public'))); //trying to apply the styles.css 
+
   
 mongoose.connect("mongodb://127.0.0.1:27017/apwDB");
-//setting up packages, ejs, express, mongoose, etc
+  
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(require("express-session")({
@@ -42,14 +51,9 @@ app.get("/", function (req, res) {
     res.render("home");
 });
 
-// Showing profile page
+// Showing home page
 app.get("/profile", function (req, res) {
   res.render("profile");
-});
-
-// Showing home page
-app.get("/index", function (req, res) {
-  res.render("index");
 });
   
 // Showing register form
@@ -62,18 +66,33 @@ app.get("/leaderboard", function (req, res) {
   res.render("leaderboard");
 });
 
-// Showing game page
+// Showing game page       //Alex K changes comments in this section April 20th, 2023
 app.get("/game", async function (req, res) {
     const data = {
        title: await findScene(1),
        user: await findUser(1),
        prompt1: await findPromptOptById(1),
-       prompt2: await findPromptOpt2ById(1)
-    };
+       prompt2: await findPromptOpt2ById(1),
+       //title2: await findScene(2),
+       //promtp21: await findPromptOptById(2),
+       //prompt22: await findPromptOpt2ById(2)
+    }; // ----------testing different ways to make the buttons function.
+    //const test1 = document.addEventListener("prompt1", onclick, true);
+    const data2 = {
+      title2: await findScene(2),
+      prompt21: await findPromptOptById(2),
+      prompt22: await findPromptOpt2ById(2)
+     };
+     //This will be the save state function. /game calls here when the button is pressed and then this 
+     //will reference the ** file containing the save function.
+     const data3 = {
+        save: await saveState
+     };
 
-  res.render("game", data);
+  res.render("game", data); //if I try to pass data2 in it crashes the site ***BE AWARE.
 });
-  
+
+
 // Handling user signup
 app.post("/register", async (req, res) => {
     const user = await User.create({
@@ -81,7 +100,7 @@ app.post("/register", async (req, res) => {
       password: req.body.password
     });
     
-    //res.status(200).json(user);
+    //return res.status(200).json(user);
     res.redirect('login');
   });
   
