@@ -3,6 +3,7 @@ var express = require("express"),
     passport = require("passport"),
     bodyParser = require("body-parser"),
     LocalStrategy = require("passport-local"),
+    session = require("express-session"),
     passportLocalMongoose = 
         require("passport-local-mongoose") 
 
@@ -16,7 +17,7 @@ const findPromptOptById = require("./model/scenarios/scenariosOpt");
 const findUser = require("./model/users/usersFind");
 const findScene = require("./model/scenarios/scenariosFind");
 const saveState =  require("./model/users/save");
-const loadState =  require("./model/users/save");
+const loadState =  require("./model/users/load");
 
 const ejs = require("ejs");
 const User = require("./model/User");
@@ -69,29 +70,29 @@ app.get("/leaderboard", function (req, res) {
 
 // Showing game page       //Alex K changes comments in this section April 20th, 2023
 app.get("/game", async function (req, res) {
-    const data = {
-       title: await findScene(1),
-       user: await findUser(1),
-       prompt1: await findPromptOptById(1),
-       prompt2: await findPromptOpt2ById(1),
-       //title2: await findScene(2),
-       //promtp21: await findPromptOptById(2),
-       //prompt22: await findPromptOpt2ById(2)
-    }; // ----------testing different ways to make the buttons function.
-    //const test1 = document.addEventListener("prompt1", onclick, true);
-    const data2 = {
-      title2: await findScene(2),
-      prompt21: await findPromptOptById(2),
-      prompt22: await findPromptOpt2ById(2)
-     };
-     //This will be the save state function. /game calls here when the button is pressed and then this 
-     //will reference the ** file containing the save function.
-     const data3 = {
-        save: await saveState(),
-        load: await loadState()
-     };
+  const data = {
+    title: await findScene(1),
+    user: await findUser(1),
+    prompt1: await findPromptOptById(1),
+    prompt2: await findPromptOpt2ById(1),
+    //title2: await findScene(2),
+    //promtp21: await findPromptOptById(2),
+    //prompt22: await findPromptOpt2ById(2)
+  }; // ----------testing different ways to make the buttons function.
+  //const test1 = document.addEventListener("prompt1", onclick, true);
+  const data2 = {
+    title2: await findScene(2),
+    prompt21: await findPromptOptById(2),
+    prompt22: await findPromptOpt2ById(2)
+  };
+  //This will be the save state function. /game calls here when the button is pressed and then this 
+  //will reference the ** file containing the save function.
+  const data3 = {
+      save: await saveState(),
+  }; 
 
-  res.render("game", data, data3); //if I try to pass data2 in it crashes the site ***BE AWARE.
+  res.render('game', data, data3);//if I try to pass data2 in it crashes the site ***BE AWARE.
+    
 });
 
 
@@ -107,20 +108,24 @@ app.post("/register", async (req, res) => {
   });
   
 //Showing login form
-app.get("/login", function (req, res) {
-    res.render("login");
+app.get("/login", function(req, res){
+  res.render("login");
 });
-  
+
 //Handling user login
 app.post("/login", async function(req, res){
     try {
         // check if the user exists
         const user = await User.findOne({ username: req.body.username });
         if (user) {
-          //check if password matches
+          //check if password matches *****AND calls to load.js for loadState function.
           const result = req.body.password === user.password;
           if (result) {
-            res.render("secret");
+            const LOAD = {
+              load: await loadState(1,'alexw')
+            };
+            res.render("secret", LOAD);
+            
           } else {
             res.status(400).json({ error: "password doesn't match" });
           }
@@ -139,8 +144,6 @@ app.get("/logout", function (req, res) {
         res.redirect('/');
       });
 });
-  
-  
   
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()) return next();

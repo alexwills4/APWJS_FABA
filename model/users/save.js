@@ -1,41 +1,26 @@
 const mongoose = require('mongoose');
-const LocalStorage = require('node-localstorage').LocalStorage;
 //importing our users and scenarios schema
-const scenarios = require('../scenarios/scenarios');
 const users = require('./users');
+const load = require('./load');
 
 localStorage = new LocalStorage('./scratch');
 
 mongoose.connect('mongodb://127.0.0.1:27017/apwDB');
 
-//function saveState(){
-  //  localStorage.setItem(saveID, JSON.stringify(state));
-//}
+//const saveData = ["ralphie",2]
+//This function is to be called when the player chooses to save their game.
+//Added functionality to usersFind.js to assist with saving.
 
-//async function loadState() {
-//    JSON.parse(localStorage.getItem('saveID'));
-//}
-const saveData = ["ralphie",2]
-function saveState() {
-    localStorage.setItem('user', JSON.stringify(saveData));
+async function saveState(username, newSave){
+  try{
+          //finding scenario with id field of 2
+          const user = await users.where("id")
+          .equals(username).populate(newSave);
+          console.log(user[0].name);
+          return user[0].name;
+      }catch (err){
+          console.log(err.message);
+      }
 }
 
-function loadState() {
-    localStorage.getItem('name');
-}
-
-JSON.parse(localStorage.getItem('user'));
-
-const userData = JSON.parse(localStorage.getItem('user'));
-
-saveState(saveData)
-loadState()
-console.log(userData);
-console.log(saveData);
-//var state = loadState();
-//state.score += 1;
-//saveState(state)
-
-
-module.exports = saveState();
-module.exports = loadState();
+module.exports = saveState;
