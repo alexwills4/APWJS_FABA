@@ -15,7 +15,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/apwDB');
 
 async function addScenes(){
     //adding a new scenario to the DB
-    const remmy = await scenarios.deleteMany({});
+    //const remmy = await scenarios.deleteMany({}); Had errors running this from FRESH installs. Commented out for draft turn-in purpose.
     console.log("All SCENES removed.");
         const scene = await scenarios.create(
             {
