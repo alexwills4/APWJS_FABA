@@ -14,13 +14,13 @@ const users = require('./users');
 mongoose.connect('mongodb://127.0.0.1:27017/apwDB');
 
 //findUser() function is expendable, you can change up values in the query to obtain different results.
-//findUser("Alexander John Kohanik");
-async function findUser(username){
+//findUser(pass in id);
+async function findUser(id){
     try{
             //finding scenario with id field of 2
             const user = await users.where("id")
-            .equals(username);
-            console.log(user[0].name);
+            .equals(id);
+            console.log(`USER: ${user[0].name} loaded in.`);
             return user[0].name;
         }catch (err){
             console.log(err.message);

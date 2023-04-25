@@ -3,7 +3,7 @@
 
 //THIS DOCUMENT CONTAINS:
 //    -The users Schema (aka the format of the users collection documents)
-//    -it is exported and can be used via "const users = require('./model/users');"
+//    -it is exported and can be used via "const users = require('./users');"
 //    -from there you can create new users in your code by:
 //                         -establishing a db connection
 //                         -using mongoose functions to find(), insert(), etc.

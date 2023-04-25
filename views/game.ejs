@@ -1,23 +1,113 @@
-<!--This page is where the game will be played.-->
-<script>var title = require("game")
-</script>
-<link href = "styles.css" rel="stylesheet">
-<h1>FABA The Game</h1>
-
-<!--Grabs the username and scenario from mongo-->
-<h2>Welcome to FABA, <%= user %> </h2>
-<h3>Prompt: <%= title %></h3>
-<button onclick="window.location.href='/game';"><%= prompt1 %></button>
-<button onclick="window.location.href='/game';"><%= prompt2 %></button>
-<h4>Would you like to save your game progress?</h4>
-<button onclick="window.location.href='/game';">Save</button> <!--Need to add the actual save button in.-->
-
-<!--Current problem with games.ejs loading is due to trash save/load.js files :( .-->
-
-
-
-
-
-
-
-
+<!---This is the page that the game will be played on.-->
+<!---added HTML doctype in a testing attempt, site still works fine and gives more structure to help test.-->
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <script>   
+         var gameState = {Level1: null, 
+         Level2: null, 
+         Level3: null, 
+         Level4: null, 
+         Level5: null,
+         Level6: null,
+         Level7: null,
+         Level8: null,
+         Level9: null,
+         Level10: null,
+         };
+         
+         
+         function correct(optNum){
+         //LEVEL 1 Loads by default.
+         //When a user makes a choice 
+         if(optNum === 'opt1' && gameState.Level1 === null){
+         //PATH 1
+         document.getElementById("prompt1").innerHTML="<%= prompt21 %>";
+         document.getElementById("prompt2").innerHTML="<%= prompt22 %>";
+         document.getElementById("sceneText").innerHTML="<%= title2 %>";
+         document.getElementById("gameImage").src="https://www.oxpal.com/wp-content/uploads/2014/07/character_medieval_tavern_keeper_big.jpg";
+         gameState.Level1 = "askbar";
+         } else if(optNum === 'opt2' && gameState.Level1 === null){
+         //PATH 2
+         document.getElementById("prompt1").innerHTML="<%= prompt31 %>";
+         document.getElementById("prompt2").innerHTML="<%= prompt32 %>";
+         document.getElementById("sceneText").innerHTML="<%= title3 %>";
+         document.getElementById("gameImage").src="https://tesall.ru/index.php?app=core&module=global&section=imgproxy&src=http%3A%2F%2Fimg02.deviantart.net%2F9df2%2Fi%2F2014%2F032%2Fb%2F7%2Fmarket_square_by_e_mendoza-d74lvgp.jpg";
+         gameState.Level1 = "getbelongings"
+         } else if(optNum === 'opt1' && gameState.Level1 === "askbar") {
+         //PATH 1 prt2
+         document.getElementById("prompt1").innerHTML="<%= prompt31 %>";
+         document.getElementById("prompt2").innerHTML="<%= prompt32 %>";
+         document.getElementById("sceneText").innerHTML="<%= title3 %>";
+         document.getElementById("gameImage").src="https://tesall.ru/index.php?app=core&module=global&section=imgproxy&src=http%3A%2F%2Fimg02.deviantart.net%2F9df2%2Fi%2F2014%2F032%2Fb%2F7%2Fmarket_square_by_e_mendoza-d74lvgp.jpg";
+         gameState.Level2 = "leavetown";
+         } else if (optNum === 'opt2' && gameState.Level1 === "askbar"){
+         //PATH 1 prt2
+         document.getElementById("prompt1").innerHTML="<%= prompt61 %>";
+         document.getElementById("prompt2").innerHTML="<%= prompt62 %>";
+         document.getElementById("sceneText").innerHTML="<%= title6 %>";
+         document.getElementById("gameImage").src="https://i.pinimg.com/originals/83/a5/a9/83a5a90ee47857e0ae2f3b194ff60686.jpg";
+         gameState.Level2 = "staytavern";
+         
+         } else if(optNum === 'opt1' && gameState.Level1 === "getbelongings") {
+         //PATH 2 prt1
+         document.getElementById("prompt1").innerHTML="<%= prompt41 %>";
+         document.getElementById("prompt2").innerHTML="<%= prompt42 %>";
+         document.getElementById("sceneText").innerHTML="<%= title4 %>";
+         document.getElementById("gameImage").src="https://staticdelivery.nexusmods.com/mods/110/images/95576/95576-1546972430-969284410.jpeg";
+         alert('You were killed by the bandits. Restart.');
+         gameState.Level1 = null;
+         gameState.Level2 = null; 
+         } else if(optNum === 'opt2' && gameState.Level1 === "getbelongings") {
+         //PATH 2 prt2
+         document.getElementById("prompt1").innerHTML="<%= prompt51 %>";
+         document.getElementById("prompt2").innerHTML="<%= prompt52 %>";
+         document.getElementById("sceneText").innerHTML="<%= title5 %>";
+         document.getElementById("gameImage").src="https://www.playstationlifestyle.net/wp-content/uploads/sites/9/2017/09/ps4-games-like-skyrim.jpg";
+         gameState.Level2 = "reasonbandit";
+         } else if(optNum === 'opt1' && gameState.Level2 === "leavetown") {
+         //PATH 1 prt
+         document.getElementById("prompt1").innerHTML="<%= prompt41 %>";
+         document.getElementById("prompt2").innerHTML="<%= prompt42 %>";
+         document.getElementById("sceneText").innerHTML="<%= title4 %>";
+         document.getElementById("gameImage").src="https://staticdelivery.nexusmods.com/mods/110/images/95576/95576-1546972430-969284410.jpeg";
+         alert('You were killed by the bandits. Restart.');
+         gameState.Level1 = null;
+         gameState.Level2 = null; 
+         } else {
+         alert('AN ERROR OCCURRED...');
+         }
+         }
+         
+            var gameState = {Level1: null, 
+               Level2: null, 
+               Level3: null, 
+               Level4: null, 
+               Level5: null,
+               Level6: null,
+               Level7: null,
+               Level8: null,
+               Level9: null,
+               Level10: null,
+            };
+            
+      </script>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <!---<link rel="stylesheet" type="text/css"   href="/stylesheets/style.css"> stylesheets wont load, need to fix, for now embedded--->
+      <button style="background-color: blanchedalmond; margin: auto; width: 20%; border: 3px solid blue; padding: 10px 0; text-align: center;" onclick="window.alert('I said it did not work!')">Save :D</button> <!--Future *working* save button!-->
+      <title>FABA The Game</title>
+   </head>
+   <body style="background-image: url(https://i.pinimg.com/originals/d5/60/44/d56044a5b5f62df707da4823ee84b2f4.jpg); align-content: center;" >
+      <img id="gameImage" src="https://www.gamespot.com/a/uploads/original/536/5360430/3060670-the_witcher_3_wild_hunt_blood_and_wine_toussaint_is_full_of_places_just_waiting_to_be_discovered_rgb.jpg" style="display: block; margin-left: auto; margin-right: auto; width: 40%;"></img>
+      <h1 style="text-align: center; border: 3px solid green;">FABA The Game</h1>
+      <h2 style="text-align: center; background-color: lightsteelblue;">Welcome to FABA, <%= user %> </h2>
+      <h3 style="background-color: lightsteelblue;" name="sceneText" id="sceneText" style="text-align: center;">Prompt: <%= title %></h3>
+      <div style="text-align: center; background-color: lightsteelblue; height: 40vh;">
+         <button name="prompt1" id="prompt1" style="background-color: blanchedalmond; margin: auto; width: 50%; border: 3px solid green; padding: 20px 0; text-align: center;" onclick="correct('opt1');"><%= prompt1 %></button>
+         <button name="prompt2" id="prompt2" style="background-color: blanchedalmond; margin: auto; width: 50%; border: 3px solid green; padding: 20px 0; text-align: center;" onclick="correct('opt2');"><%= prompt2 %></button>
+      </div>
+      </div>
+   </body>
+</html>

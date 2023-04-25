@@ -3,7 +3,6 @@ var express = require("express"),
     passport = require("passport"),
     bodyParser = require("body-parser"),
     LocalStrategy = require("passport-local"),
-    session = require("express-session"),
     passportLocalMongoose = 
         require("passport-local-mongoose") 
 
@@ -16,18 +15,18 @@ const findPromptOpt2ById = require("./model/scenarios/scenariosOpt2");
 const findPromptOptById = require("./model/scenarios/scenariosOpt");
 const findUser = require("./model/users/usersFind");
 const findScene = require("./model/scenarios/scenariosFind");
-const saveState =  require("./model/users/save");
-const loadState =  require("./model/users/load");
+const sceneAddAll = require("./model/scenarios/scenariosAdd");
+const populateUserState = require('./controller/gamePlay/gameStatePush');
 
 const ejs = require("ejs");
 const User = require("./model/User");
 var app = express();
 
 var path = require('path');
-//app.use(express.static(path.join(__dirname, 'public'))); //trying to apply the styles.css 
-
   
 mongoose.connect("mongodb://127.0.0.1:27017/apwDB");
+
+sceneAddAll(); // Removes all Scenes from users DB, then adds them. Does this whenever app.js is ran.
   
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -54,10 +53,15 @@ app.get("/", function (req, res) {
 });
 
 // Showing home page
+app.get("/index", function (req, res) {
+  res.render("index");
+});
+
+// Showing profile page
 app.get("/profile", function (req, res) {
   res.render("profile");
 });
-  
+
 // Showing register form
 app.get("/register", function (req, res) {
     res.render("register");
@@ -70,29 +74,37 @@ app.get("/leaderboard", function (req, res) {
 
 // Showing game page       //Alex K changes comments in this section April 20th, 2023
 app.get("/game", async function (req, res) {
-  const data = {
-    title: await findScene(1),
-    user: await findUser(1),
-    prompt1: await findPromptOptById(1),
-    prompt2: await findPromptOpt2ById(1),
-    //title2: await findScene(2),
-    //promtp21: await findPromptOptById(2),
-    //prompt22: await findPromptOpt2ById(2)
-  }; // ----------testing different ways to make the buttons function.
-  //const test1 = document.addEventListener("prompt1", onclick, true);
-  const data2 = {
-    title2: await findScene(2),
-    prompt21: await findPromptOptById(2),
-    prompt22: await findPromptOpt2ById(2)
-  };
-  //This will be the save state function. /game calls here when the button is pressed and then this 
-  //will reference the ** file containing the save function.
-  const data3 = {
-      save: await saveState(),
-  }; 
+    const data = {
+       //USER
+       user: await findUser(1),
+       //SCENE 1
+       title: await findScene(1),
+       prompt1: await findPromptOptById(1),
+       prompt2: await findPromptOpt2ById(1),
+      //SCENE 2
+       title2: await findScene(11),
+      prompt21: await findPromptOptById(11),
+      prompt22: await findPromptOpt2ById(11),
+      //SCENE 3
+      title3: await findScene(12),
+      prompt31: await findPromptOptById(12),
+      prompt32: await findPromptOpt2ById(12),
+      //SCENE 4
+      title4: await findScene(21),
+      prompt41: await findPromptOptById(21),
+      prompt42: await findPromptOpt2ById(21),
+      //SCENE 5
+      title5: await findScene(22),
+      prompt51: await findPromptOptById(22),
+      prompt52: await findPromptOpt2ById(22),
+      //SCENE 6
+      title6: await findScene(71),
+      prompt61: await findPromptOptById(71),
+      prompt62: await findPromptOpt2ById(71)
+    }; //edit params passed into functions to change which scenes are loaded upon /game
 
-  res.render('game', data, data3);//if I try to pass data2 in it crashes the site ***BE AWARE.
-    
+  res.render("game", data);
+
 });
 
 
@@ -102,30 +114,26 @@ app.post("/register", async (req, res) => {
       username: req.body.username,
       password: req.body.password
     });
-    
-    //return res.status(200).json(user);
-    res.redirect('login');
+        res.redirect('login');
+
   });
   
 //Showing login form
-app.get("/login", function(req, res){
-  res.render("login");
+app.get("/login", function (req, res) {
+    res.render("login");
 });
-
+  
 //Handling user login
 app.post("/login", async function(req, res){
     try {
         // check if the user exists
         const user = await User.findOne({ username: req.body.username });
         if (user) {
-          //check if password matches *****AND calls to load.js for loadState function.
+          //check if password matches
           const result = req.body.password === user.password;
+          await populateUserState(user._id);  //When a User logs in, their primary key becomes the cooresponding key of their gameState object.
           if (result) {
-            const LOAD = {
-              load: await loadState(1,'alexw')
-            };
-            res.render("secret", LOAD);
-            
+            res.render("secret");
           } else {
             res.status(400).json({ error: "password doesn't match" });
           }
@@ -145,7 +153,9 @@ app.get("/logout", function (req, res) {
       });
 });
   
-function isLoggedIn(req, res, next) {
+  
+  
+function isLoggedIn(req, res, next) { //looking to use this to possibly integrate sessions/save games in the future.
     if (req.isAuthenticated()) return next();
     res.redirect("/login");
 }

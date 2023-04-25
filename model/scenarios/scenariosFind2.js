@@ -41,7 +41,4 @@ async function findAllScene(){
     
 }
 
-//window.onload = findAllScene("Testinig");
-
-//module.exports = findScene;
 module.exports = findAllScene;

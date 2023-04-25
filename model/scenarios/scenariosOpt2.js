@@ -22,28 +22,11 @@ async function findScenePrompt2(sceneID){
             //finding scenario with id field
             const scene = await scenarios.where("id")
                 .equals(sceneID);
-            console.log(scene[0].options.prompt2);
+            console.log(`SCENE NUMBER: ${sceneID} option 2, loaded in.`);
             return scene[0].options.prompt2;
         }catch (err){
             console.log(err.message);
         }
 }
 
-//exporting find scene function to be used elsewhere
-/*
-async function findAllScene(){
-    try{
-        const allScene = await scenarios.find();
-        console.log(allScene);
-        return allScene;
-    } catch (err){
-        console.log(err.message);
-    }
-}
-*/
-
-//findScenePrompt1(1);
-
-
 module.exports = findScenePrompt2;
-//module.exports = findAllScene;
