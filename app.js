@@ -21,6 +21,7 @@ const populateUserState = require('./controller/gamePlay/gameStatePush');
 const gameState = require('./controller/gamePlay/gameStatePush');
 const saveGameState = require('./controller/gamePlay/gameStatePush');
 
+const scoreFind = require("./controller/gameScore/gameScoreFind");
 
 const ejs = require("ejs");
 const User = require("./model/User");
@@ -72,7 +73,11 @@ app.get("/register", function (req, res) {
 });
 
 // Showing leaderboard page
-app.get("/leaderboard", function (req, res) {
+// Should run score functions to gather the top 10 scores to display here.
+app.get("/leaderboard", async function (req, res) {
+  /*var scores = (
+    score1: await scoreFind(0)
+  ); */
   res.render("leaderboard");
 });
 
@@ -315,7 +320,7 @@ app.get("/login", function (req, res) {
     res.render("login");
 });
   
-//Handling user login
+//Handling user login POST
 app.post("/login", async function(req, res){
     try {
         // check if the user exists

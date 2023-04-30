@@ -7,7 +7,8 @@ mongoose.connect('mongodb://127.0.0.1:27017/apwDB');
 //creating schema
 var gameStateSchema = new mongoose.Schema({
         userID : String,    // query populates the userID field in gameStateSchema
-        choices : String            // query populate upon choice the Level field in the gameStateSchema
+        choices : String,            // query populate upon choice the Level field in the gameStateSchema
+        score : String
 
 });
 
