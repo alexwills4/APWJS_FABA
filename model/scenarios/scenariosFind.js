@@ -29,18 +29,4 @@ async function findScene(sceneID){
         }
 }
 
-//exporting find scene function to be used elsewhere
-/*
-async function findAllScene(){
-    try{
-        const allScene = await scenarios.find();
-        console.log(allScene);
-        return allScene;
-    } catch (err){
-        console.log(err.message);
-    }
-}
-*/
-
-
 module.exports = findScene;

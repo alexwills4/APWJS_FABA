@@ -18,7 +18,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/apwDB');
 
 //creating schema
 var scenarioSchema = new mongoose.Schema({
-    id: Number,
+    id: String,
        prompt: String,
        options: {
              prompt1: String,
