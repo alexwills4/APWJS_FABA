@@ -580,15 +580,21 @@
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <!---<link rel="stylesheet" type="text/css"   href="/stylesheets/style.css"> stylesheets wont load, need to fix, for now embedded--->
-      <button method="post" id="saveGame" style="background-color: blanchedalmond; margin: auto; width: 20%; border: 3px solid blue; padding: 10px 0; text-align: center;" onclick="app.post(saveGame)">Save Game</button> <!--Future *working* save button!-->
+      <button method="post" id="saveGame" style="background-color: blanchedalmond; margin: auto; width: 20%; border: 3px solid blue; padding: 10px 0; text-align: center;" onclick="app.post(saveGame)">Save Game</button> <!--Future *working* save button!--> <button id="reload" style="background-color: blanchedalmond; margin: auto; width: 20%; border: 3px solid blue; padding: 10px 0; text-align: center; float: right;" onclick="location.reload()">Restart</button>
       <title>FABA The Game</title>
    </head>
    <body style="background-image: url(https://i.pinimg.com/originals/d5/60/44/d56044a5b5f62df707da4823ee84b2f4.jpg); align-content: center;" >
       <img id="gameImage" src="https://www.gamespot.com/a/uploads/original/536/5360430/3060670-the_witcher_3_wild_hunt_blood_and_wine_toussaint_is_full_of_places_just_waiting_to_be_discovered_rgb.jpg" style="display: block; margin-left: auto; margin-right: auto; width: 40%;"></img>
-      <h1 style="text-align: center; border: 3px solid green;">FABA The Game</h1>
-      <h2 style="text-align: center; background-color: lightsteelblue;">Welcome to FABA, <%= user %> </h2>
-      <h3 style="text-align: center; background-color: lightsteelblue;" id="score">Score: <span id="score-value"></span></h3>
-      <h4 style="background-color: lightsteelblue;" name="sceneText" id="sceneText" style="text-align: center;">Prompt: <%= intro %></h4>
+      <div style="text-align: center;">
+         <h1 style="display: inline-block; font-family: 'Copperplate Gothic'; margin-top: 10px; margin-bottom: 10px; border: 3px solid green; padding: 5px;">FABA The Game</h1>
+      </div>
+      <div style="text-align: center;">
+         <h2 style="display: inline-block; font-family: 'Copperplate Gothic'; background-color: lightsteelblue; margin-top: 10px; margin-bottom: 10px; padding: 5px;">Welcome to FABA, <%= user %></h2>
+      </div>
+      <div style="text-align: center;">
+         <h3 style="display: inline-block; font-family: 'Copperplate Gothic'; background-color: lightsteelblue; font-size: 120%; margin-top: 10px; margin-bottom: 10px; padding: 5px" id="score">Score: <span id="score-value"></span></h3>
+      </div>
+         <h4 style="text-align: center; font-family: 'Cloister Black'; background-color: lightsteelblue; font-size: 150%; margin-top: 10px; margin-bottom: 10px;" name="sceneText" id="sceneText" style="text-align: center;">Prompt: <%= intro %></h4>
       <div style="text-align: center; background-color: lightsteelblue; height: 40vh;">
          <button name="prompt1" id="prompt1" style="background-color: blanchedalmond; margin: auto; width: 50%; border: 3px solid green; padding: 20px 0; text-align: center;" onclick="correct('opt1');"><%= intro1 %></button>
          <button name="prompt2" id="prompt2" style="background-color: blanchedalmond; margin: auto; width: 50%; border: 3px solid green; padding: 20px 0; text-align: center;" onclick="correct('opt2');"><%= intro2 %></button>
@@ -596,12 +602,4 @@
       </div>
    </body>
 </html>
-
-<form action="/register" method="POST">
-   <input type="text" name="username" 
-       placeholder="username">
-   <input type="password" name="password" 
-       placeholder="password">
-   <button onClick="window.alert('User Successfully Created!')" >Submit</button>
-
 </form>
