@@ -15,6 +15,8 @@ npm install passport passport-local
 npm install passport-local-mongoose 
 
 Run 'npm install' afterwards to confirm all are up to date.
+
+Run app.js to start the applicatiion. -> Go to localhost:3000
 ---------------------------------------------------------------------------------------------------
 ## AlexanderKohanik's Running Notes of changes w/Screenshots:
 (04/23/2023) entries -----------------------------------------------------------
